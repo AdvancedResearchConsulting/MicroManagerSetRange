@@ -1,0 +1,52 @@
+/**
+ * Small script to control the DAC output spanning using the triggerscope 3B.
+ * *requires triggerscope firmware V 550 or up. 
+ * 
+ * to use:
+ * 	- Configre COM port to your appropriate # for the triggerscope
+ * 	- enter appropriate DAC # for the "dac" variable
+ * 	- Enter the appropriate range mode using the "rmode" variable, where
+ * 		- 1 = 0-5V
+ * 		- 2 = 0-10V
+ * 		- 3 = +/-5V
+ * 		- 4 = +/-10V 
+ * 		- 5 = +/- 2.5V
+ */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.micromanager.api.AcquisitionOptions;
+import java.lang.System;
+import ij.gui.GenericDialog;
+
+//for storing image data
+import org.micromanager.data.Coords;
+import org.micromanager.data.Image;
+import org.micromanager.data.Datastore;
+import org.micromanager.display.DisplayWindow;
+
+port = "COM30"; //enter triggerscope COM port here
+dac = 1; //sets what dac to control
+rmode = 4; //sets the range mode, see description @ top for details
+
+
+
+boolean tgsWrite(String inData) {
+	mmc.setSerialPortCommand(port,inData,"\n");
+	tgAnswer = mmc.getSerialPortAnswer(port, "\n");
+	//print(tgAnswer);
+	Thread.sleep(5);
+	return true;	
+}
+
+String tout = "";
+String answer = ""; //a reply buffer
+
+//clear any previous settings from unit
+tout = "CLEAR_ALL";
+if(!tgsWrite(tout)){print("Transmit Error...)"); }
+
+tout = "RANGE" + dac + "," + rmode;
+if(!tgsWrite(tout)){print("Transmit Error...)"); }
+print(mmc.getSerialPortAnswer(port, "\n"));
+
+
