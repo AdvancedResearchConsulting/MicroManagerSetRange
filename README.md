@@ -1,6 +1,8 @@
 # MicroManagerSetRange
-A script to set the DAC output range on the Triggerscope 3B
+***Please note this is no longer needed if using MM nightly builds newer than Oct 20 2019
+Builds then and newer incorporate a range selection function directly from the MM driver. 
 
+A script to set the DAC output range on the Triggerscope 3B
 
 Install Procedure
 
